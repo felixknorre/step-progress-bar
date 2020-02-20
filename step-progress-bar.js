@@ -1,5 +1,5 @@
 //set steps 
-let steps = [1, 2, 3, 4]
+let steps = [1, 2, 3, 4, 5, 6]
 //set properties
 let properties = {
     width: window.innerWidth,
@@ -28,10 +28,6 @@ properties.boundedWidth = properties.width - properties.margin.left - properties
 properties.boundedHeight = properties.height - properties.margin.top - properties.margin.left
 properties.stepSize = properties.boundedWidth / (steps.length - 1)
 
-//test prints
-console.log(window.innerWidth)
-console.log(properties.boundedWidth)
-
 //add svg and bounds
 const svg = d3.select("#step-progress-bar")
     .append("svg")
@@ -59,6 +55,8 @@ const progressBar = bounds.append("rect")
     .attr("height", properties.bar.height)
     .attr("fill", properties.color.black)
     .attr("rx", `${properties.bar.rx}px`)
+
+progressBar.transition().duration(1000)
 
 
 //container for circles
@@ -100,7 +98,8 @@ const texts = textGroup.selectAll("text")
 function updateStepProgressBar(step){
     if(0 < step && step <= steps.length){
         //update bar
-        progressBar.attr("fill", properties.color.black)
+        progressBar.transition().duration(1000)
+            .attr("fill", properties.color.black)
             .attr("width", properties.stepSize * (step - 1))
         //update dots and text
         for(let i = 1; i <= steps.length; i++){
@@ -120,8 +119,8 @@ function updateStepProgressBar(step){
         throw "There aren't that many steps"
     }
 }
-console.log(steps.length)
-updateStepProgressBar(3)
+console.log("test")
+updateStepProgressBar(1)
 
 
 
