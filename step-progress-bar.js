@@ -1,5 +1,5 @@
 //set steps 
-let steps = [1,2,3,4]
+let steps = [1, 2, 3, 4]
 //set properties
 let properties = {
     width: window.innerWidth,
@@ -60,12 +60,12 @@ const progressBar = bounds.append("rect")
     .attr("fill", properties.color.black)
     .attr("rx", `${properties.bar.rx}px`)
 
-//plot dots
+
 //container for circles
 const circleGroup = bounds.append("g")
     .attr("id", "dots")
 
-
+//plot dots
 const circles = circleGroup.selectAll("circle")
     .data(steps)
     .enter()
@@ -78,11 +78,12 @@ const circles = circleGroup.selectAll("circle")
         .attr("stroke", properties.color.brightGrey)
         .attr("stroke-width", properties.dot.strokeWidth)
 
-// add text to each step
+
 //container for texts
 const textGroup = bounds.append("g")
     .attr("id", "texts")
 
+// add text to each step
 const texts = textGroup.selectAll("text")
     .data(steps)
     .enter()
@@ -93,6 +94,34 @@ const texts = textGroup.selectAll("text")
         .attr("text-anchor", "middle")
         .attr("fill", properties.color.brightGrey)
         .text(d => d)
+
+//update function 
+//steps start at 1
+function updateStepProgressBar(step){
+    if(0 < step && step <= steps.length){
+        //update bar
+        progressBar.attr("fill", properties.color.black)
+            .attr("width", properties.stepSize * (step - 1))
+        //update dots and text
+        for(let i = 1; i <= steps.length; i++){
+            let currentCircle = d3.select(`#step${i}`)
+            let currentText = d3.select(`#text${i}`)
+            if(i <= step){
+                currentCircle.attr("fill", properties.color.black)
+                    .attr("stroke", properties.color.black)
+                currentText.attr("fill", properties.color.white)
+            } else {
+                currentCircle.attr("fill", properties.color.white)
+                    .attr("stroke", properties.color.brightGrey)
+                currentText.attr("fill", properties.color.brightGrey)
+            }
+        }
+    } else {
+        throw "There aren't that many steps"
+    }
+}
+console.log(steps.length)
+updateStepProgressBar(3)
 
 
 
