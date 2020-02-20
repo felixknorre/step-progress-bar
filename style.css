@@ -1,3 +1,23 @@
 body {
     margin: 0
 }
+
+button {
+    display:block;
+    margin: 0 auto;
+    background: #cccccc;
+    border: none;
+    color: white;
+    padding: 10px;
+    text-align: center;
+    text-decoration: none;
+    font-size: 20px;
+    border-radius: 6px;
+    box-shadow: 0 5px 0 0 #999999;
+    cursor: pointer;
+}
+
+button:hover {
+    background: #d9d9d9;
+    box-shadow: 0 2px 0 0 #999999;
+}

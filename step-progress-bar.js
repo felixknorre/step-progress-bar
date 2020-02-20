@@ -119,8 +119,25 @@ function updateStepProgressBar(step){
         throw "There aren't that many steps"
     }
 }
-console.log("test")
+//default start
 updateStepProgressBar(1)
+
+//demo button
+const stepButton = d3.select("body")
+    .append("button")
+        .text("Next step")
+
+let currentStep = 1
+stepButton.on("click", function(){
+    currentStep = (currentStep + 1) % (steps.length + 1) 
+    if(currentStep == 0){
+        currentStep++
+    }
+    updateStepProgressBar(currentStep)
+})
+
+
+
 
 
 
