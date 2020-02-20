@@ -106,7 +106,8 @@ function updateStepProgressBar(step){
             let currentCircle = d3.select(`#step${i}`)
             let currentText = d3.select(`#text${i}`)
             if(i <= step){
-                currentCircle.attr("fill", properties.color.black)
+                currentCircle.transition().duration(2000)
+                    .attr("fill", properties.color.black)
                     .attr("stroke", properties.color.black)
                 currentText.attr("fill", properties.color.white)
             } else {
