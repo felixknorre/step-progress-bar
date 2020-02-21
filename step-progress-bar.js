@@ -260,9 +260,18 @@ function setCurrentStep(input) {
     //compare lastLinkElement and selected element
     let lastvisitedElement = d3.max([lastLinkElement, currentStep])
     //update progress bar 
+
     progressBar.attr("width", properties.stepSize * (lastvisitedElement - 1))
-    //progressBar.transition().duration(1000)
-    //.attr("width", properties.stepSize * (currentStep - 1))
+
+    //animation
+    // if(lastLinkElement > currentStep){
+    //     progressBar.attr("width", properties.stepSize * (lastvisitedElement - 1))
+    // } else {
+    //     progressBar.attr("width", properties.stepSize * (lastvisitedElement - 2))
+    //     progressBar.transition().duration(1000)
+    //         .attr("width", properties.stepSize * (currentStep - 1))
+    // }
+
     //update links, circles, text
     input.steps.forEach(element =>{
         //select current elements
