@@ -8,5 +8,10 @@
             "email": "felix.knorre@dr-walter.com"
         }
     ],
-    "require": {}
+    "require": {},
+    "scripts": {
+        "post-install-cmd": [
+            "cp vendor/drwalter/step-progress-bar/step-progress-bar.js webroot/js/"
+        ]
+    }
 }
