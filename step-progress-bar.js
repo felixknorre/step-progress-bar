@@ -68,13 +68,13 @@ let input3 = {
         {
             link: "www.google.de",
             text: "2",
-            status:  "link", // ["link", "selected", "silent"]
+            status:  "selected", // ["link", "selected", "silent"]
             title: "Title2"
         },
         {
             link: "www.google.de",
             text: "3",
-            status: "selected", // ["link", "selected", "silent"]
+            status: "link", // ["link", "selected", "silent"]
             title: "Title3"
         },
         {
@@ -220,10 +220,21 @@ function setCurrentStep(input) {
         if(element.status == "selected")
         currentStep = element.text
     });
+    //find last link element
+    let linkElements = []
+    input.steps.forEach(element => {
+        if(element.status == "link"){
+            linkElements.push(element.text)
+        }
+    })
+    //find last link element
+    let lastLinkElement = d3.max(linkElements)
+    //compare lastLinkElement and selected element
+    let lastvisitedElement = d3.max([lastLinkElement, currentStep])
     //update progress bar 
-    progressBar.attr("width", properties.stepSize * (currentStep - 2))
-    progressBar.transition().duration(1000)
-    .attr("width", properties.stepSize * (currentStep - 1))
+    progressBar.attr("width", properties.stepSize * (lastvisitedElement - 1))
+    //progressBar.transition().duration(1000)
+    //.attr("width", properties.stepSize * (currentStep - 1))
     //update links, circles, text
     input.steps.forEach(element =>{
         //select current elements
@@ -251,59 +262,3 @@ function setCurrentStep(input) {
 
 //test call
 setCurrentStep(input3)
-
-//-----------------------------------------------------------------------------------------------
-//old update function with demo button
-//-----------------------------------------------------------------------------------------------
-
-//update function 
-//steps start at 1
-function updateStepProgressBar(step){
-    if(0 < step && step <= input.steps.length){
-        //update bar
-        progressBar.attr("width", properties.stepSize * (step - 1))
-        //update links, dots and text
-        for(let i = 1; i <= input.steps.length; i++){
-            let currentLink = d3.select(`#link${i}`)
-            let currentCircle = d3.select(`#step${i}`)
-            let currentText = d3.select(`#text${i}`)
-            if(i <= step){
-                currentLink.attr("xlink:href", "https://www.google.de")
-                currentCircle.attr("fill", properties.color.black)
-                    .attr("stroke", properties.color.black)
-                currentText.attr("fill", properties.color.white)
-            } else {
-                currentCircle.attr("fill", properties.color.white)
-                    .attr("stroke", properties.color.brightGrey)
-                currentText.attr("fill", properties.color.brightGrey)
-            }
-        }
-    } else {
-        throw "There aren't that many steps"
-    }
-}
-//default start
-//updateStepProgressBar(1)
-
-
-//demo button
-// const stepButton = d3.select("body")
-//     .append("button")
-//         .text("Next step")
-
-// let currentStep = 1
-// stepButton.on("click", function(){
-//     currentStep = (currentStep + 1) % (input.steps.length + 1) 
-//     if(currentStep == 0){
-//         currentStep++
-//     }
-//     updateStepProgressBar(currentStep)
-// })
-
-
-
-
-
-
-
-
