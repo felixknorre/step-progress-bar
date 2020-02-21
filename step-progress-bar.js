@@ -56,8 +56,6 @@ const progressBar = bounds.append("rect")
     .attr("fill", properties.color.black)
     .attr("rx", `${properties.bar.rx}px`)
 
-progressBar.transition().duration(1000)
-
 
 //container for circles
 const circleGroup = bounds.append("g")
@@ -98,16 +96,14 @@ const texts = textGroup.selectAll("text")
 function updateStepProgressBar(step){
     if(0 < step && step <= steps.length){
         //update bar
-        progressBar.transition().duration(1000)
-            .attr("fill", properties.color.black)
+        progressBar.attr("fill", properties.color.black)
             .attr("width", properties.stepSize * (step - 1))
         //update dots and text
         for(let i = 1; i <= steps.length; i++){
             let currentCircle = d3.select(`#step${i}`)
             let currentText = d3.select(`#text${i}`)
             if(i <= step){
-                currentCircle.transition().duration(2000)
-                    .attr("fill", properties.color.black)
+                currentCircle.attr("fill", properties.color.black)
                     .attr("stroke", properties.color.black)
                 currentText.attr("fill", properties.color.white)
             } else {
