@@ -68,6 +68,34 @@ let input3 = {
         {
             link: "www.google.de",
             text: "2",
+            status:  "link", // ["link", "selected", "silent"]
+            title: "Title2"
+        },
+        {
+            link: "www.google.de",
+            text: "3",
+            status: "selected", // ["link", "selected", "silent"]
+            title: "Title3"
+        },
+        {
+            link: "www.google.de",
+            text: "4",
+            status: "silent", // ["link", "selected", "silent"]
+            title: "Title4"
+        }
+    ]  
+}
+let input4 = {
+    steps: [
+        {
+            link: "www.google.de",
+            text: "1",
+            status: "link", // ["link", "selected", "silent"]
+            title: "Title1"
+        },
+        {
+            link: "www.google.de",
+            text: "2",
             status:  "selected", // ["link", "selected", "silent"]
             title: "Title2"
         },
@@ -85,7 +113,7 @@ let input3 = {
         }
     ]  
 }
-let input4 = {
+let input5 = {
     steps: [
         {
             link: "www.google.de",
@@ -261,4 +289,16 @@ function setCurrentStep(input) {
 }
 
 //test call
-setCurrentStep(input3)
+setCurrentStep(input)
+
+//demo button
+const stepButton = d3.select("body")
+    .append("button")
+        .text("Next step")
+
+let demoSteps = [input, input2, input3, input4, input3, input5]
+let count = 1
+
+stepButton.on("click", function(){
+    setCurrentStep(demoSteps[count++ % demoSteps.length ])
+})
