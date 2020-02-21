@@ -221,7 +221,9 @@ function setCurrentStep(input) {
         currentStep = element.text
     });
     //update progress bar 
-    progressBar.attr("width", properties.stepSize * (currentStep - 1))
+    progressBar.attr("width", properties.stepSize * (currentStep - 2))
+    progressBar.transition().duration(1000)
+    .attr("width", properties.stepSize * (currentStep - 1))
     //update links, circles, text
     input.steps.forEach(element =>{
         //select current elements
@@ -246,6 +248,9 @@ function setCurrentStep(input) {
         }
     })
 }
+
+//test call
+setCurrentStep(input3)
 
 //-----------------------------------------------------------------------------------------------
 //old update function with demo button
@@ -280,8 +285,6 @@ function updateStepProgressBar(step){
 //default start
 //updateStepProgressBar(1)
 
-//test call
-setCurrentStep(input2)
 
 //demo button
 // const stepButton = d3.select("body")
