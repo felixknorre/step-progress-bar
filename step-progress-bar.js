@@ -1,5 +1,12 @@
 //set steps 
-let steps = [1, 2, 3, 4, 5, 6]
+let steps = [1, 2, 3, 4]
+//set link 
+let link = [
+    "www.google.de",
+    "www.google.de",
+    "www.google.de",
+    "www.google.de"
+]
 //set properties
 let properties = {
     width: window.innerWidth,
@@ -14,7 +21,7 @@ let properties = {
         height: 10,
         rx: 5
     },
-    dot: {
+    circle: {
         r: 20,
         strokeWidth: 5 
     },
@@ -59,20 +66,23 @@ const progressBar = bounds.append("rect")
 
 //container for circles
 const circleGroup = bounds.append("g")
-    .attr("id", "dots")
+    .attr("id", "circles")
 
-//plot dots
-const circles = circleGroup.selectAll("circle")
-    .data(steps)
+//append circle with links
+const links = circleGroup.selectAll("a")
+    .data(link)
     .enter()
-    .append("circle")
+    .append("a")
+        .attr("id", (d,i) => `link${i+1}`)
+        .append("circle")
         .attr("id", (d,i) => `step${i+1}`)
         .attr("cx",(d,i) => properties.stepSize * i)
         .attr("cy", properties.bar.height / 2 )
-        .attr("r", properties.dot.r)
+        .attr("r", properties.circle.r)
         .attr("fill", properties.color.white)
         .attr("stroke", properties.color.brightGrey)
-        .attr("stroke-width", properties.dot.strokeWidth)
+        .attr("stroke-width", properties.circle.strokeWidth)
+
 
 
 //container for texts
@@ -98,11 +108,13 @@ function updateStepProgressBar(step){
         //update bar
         progressBar.attr("fill", properties.color.black)
             .attr("width", properties.stepSize * (step - 1))
-        //update dots and text
+        //update links, dots and text
         for(let i = 1; i <= steps.length; i++){
+            let currentLink = d3.select(`#link${i}`)
             let currentCircle = d3.select(`#step${i}`)
             let currentText = d3.select(`#text${i}`)
             if(i <= step){
+                currentLink.attr("xlink:href", "https://www.google.de")
                 currentCircle.attr("fill", properties.color.black)
                     .attr("stroke", properties.color.black)
                 currentText.attr("fill", properties.color.white)
