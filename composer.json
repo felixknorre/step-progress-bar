@@ -1,0 +1,12 @@
+{
+    "name": "drwalter/step-progress-bar",
+    "description": "d3js animated progress bar",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Felix Knorre",
+            "email": "felix.knorre@dr-walter.com"
+        }
+    ],
+    "require": {}
+}
