@@ -1,16 +1,123 @@
-//set steps 
-let steps = [1, 2, 3, 4]
-//set link 
-let link = [
-    "www.google.de",
-    "www.google.de",
-    "www.google.de",
-    "www.google.de"
-]
+//-------------------------------------------------------
+//demo input
+//--------------------------------------------------------
+let input = {
+        steps: [
+            {
+                link: "www.google.de",
+                text: "1",
+                status: "selected", // ["link", "selected", "silent"]
+                title: "Title1"
+            },
+            {
+                link: "www.google.de",
+                text: "2",
+                status:  "silent", // ["link", "selected", "silent"]
+                title: "Title2"
+            },
+            {
+                link: "www.google.de",
+                text: "3",
+                status: "silent", // ["link", "selected", "silent"]
+                title: "Title3"
+            },
+            {
+                link: "www.google.de",
+                text: "4",
+                status: "silent", // ["link", "selected", "silent"]
+                title: "Title4"
+            }
+        ]  
+}
+let input2 = {
+    steps: [
+        {
+            link: "www.google.de",
+            text: "1",
+            status: "link", // ["link", "selected", "silent"]
+            title: "Title1"
+        },
+        {
+            link: "www.google.de",
+            text: "2",
+            status:  "selected", // ["link", "selected", "silent"]
+            title: "Title2"
+        },
+        {
+            link: "www.google.de",
+            text: "3",
+            status: "silent", // ["link", "selected", "silent"]
+            title: "Title3"
+        },
+        {
+            link: "www.google.de",
+            text: "4",
+            status: "silent", // ["link", "selected", "silent"]
+            title: "Title4"
+        }
+    ]  
+}
+let input3 = {
+    steps: [
+        {
+            link: "www.google.de",
+            text: "1",
+            status: "link", // ["link", "selected", "silent"]
+            title: "Title1"
+        },
+        {
+            link: "www.google.de",
+            text: "2",
+            status:  "link", // ["link", "selected", "silent"]
+            title: "Title2"
+        },
+        {
+            link: "www.google.de",
+            text: "3",
+            status: "selected", // ["link", "selected", "silent"]
+            title: "Title3"
+        },
+        {
+            link: "www.google.de",
+            text: "4",
+            status: "silent", // ["link", "selected", "silent"]
+            title: "Title4"
+        }
+    ]  
+}
+let input4 = {
+    steps: [
+        {
+            link: "www.google.de",
+            text: "1",
+            status: "link", // ["link", "selected", "silent"]
+            title: "Title1"
+        },
+        {
+            link: "www.google.de",
+            text: "2",
+            status:  "link", // ["link", "selected", "silent"]
+            title: "Title2"
+        },
+        {
+            link: "www.google.de",
+            text: "3",
+            status: "link", // ["link", "selected", "silent"]
+            title: "Title3"
+        },
+        {
+            link: "www.google.de",
+            text: "4",
+            status: "selected", // ["link", "selected", "silent"]
+            title: "Title4"
+        }
+    ]  
+}
+//-------------------------------------------------------------
 //set properties
 let properties = {
     width: window.innerWidth,
-    height: 100,
+    height: 120,
     margin: {
         top: 50,
         right: 50,
@@ -25,15 +132,17 @@ let properties = {
         r: 20,
         strokeWidth: 5 
     },
-    color: {
-        brightGrey: "#cccccc",
-        black: "#000000",
+    color: { 
+        black: "#000000", // link
+        red: "#ff0000", // selected
+        brightGrey: "#cccccc", // silent
         white: "#ffffff",
     }
 }
+
 properties.boundedWidth = properties.width - properties.margin.left - properties.margin.right
 properties.boundedHeight = properties.height - properties.margin.top - properties.margin.left
-properties.stepSize = properties.boundedWidth / (steps.length - 1)
+properties.stepSize = properties.boundedWidth / (input.steps.length - 1)
 
 //add svg and bounds
 const svg = d3.select("#step-progress-bar")
@@ -70,7 +179,7 @@ const circleGroup = bounds.append("g")
 
 //append circle with links
 const links = circleGroup.selectAll("a")
-    .data(link)
+    .data(input.steps)
     .enter()
     .append("a")
         .attr("id", (d,i) => `link${i+1}`)
@@ -91,25 +200,65 @@ const textGroup = bounds.append("g")
 
 // add text to each step
 const texts = textGroup.selectAll("text")
-    .data(steps)
+    .data(input.steps)
     .enter()
     .append("text")
-        .attr("id", (d,i) => `text${i+1}`)
+        .attr("id", (d) => `text${d.text}`)
         .attr("x", (d,i) => properties.stepSize * i)
         .attr("y", properties.bar.height)
         .attr("text-anchor", "middle")
         .attr("fill", properties.color.brightGrey)
-        .text(d => d)
+        .text(d => d.text)
+
+
+
+//set current step function
+function setCurrentStep(input) {
+    //find current step
+    let currentStep = 0
+    input.steps.forEach(element => {
+        if(element.status == "selected")
+        currentStep = element.text
+    });
+    //update progress bar 
+    progressBar.attr("width", properties.stepSize * (currentStep - 1))
+    //update links, circles, text
+    input.steps.forEach(element =>{
+        //select current elements
+        let currentLink = d3.select(`#link${element.text}`)
+        let currentCircle = d3.select(`#step${element.text}`)
+        let currentText = d3.select(`#text${element.text}`)
+        //set color, links for current elements
+        if(element.status == "link"){ // link
+            currentLink.attr("xlink:href", element.link) // set link to step
+            currentCircle.attr("fill", properties.color.black) // set color for circle
+                .attr("stroke", properties.color.black)
+            currentText.attr("fill", properties.color.white)
+        } else if(element.status == "selected"){ //selected
+            currentLink.attr("xlink:href", element.link) // set link to step
+            currentCircle.attr("fill", properties.color.red) // set color for circle
+                .attr("stroke", properties.color.red)
+            currentText.attr("fill", properties.color.white)
+        } else { // status == silent
+            currentCircle.attr("fill", properties.color.white)
+                    .attr("stroke", properties.color.brightGrey)
+            currentText.attr("fill", properties.color.brightGrey)
+        }
+    })
+}
+
+//-----------------------------------------------------------------------------------------------
+//old update function with demo button
+//-----------------------------------------------------------------------------------------------
 
 //update function 
 //steps start at 1
 function updateStepProgressBar(step){
-    if(0 < step && step <= steps.length){
+    if(0 < step && step <= input.steps.length){
         //update bar
-        progressBar.attr("fill", properties.color.black)
-            .attr("width", properties.stepSize * (step - 1))
+        progressBar.attr("width", properties.stepSize * (step - 1))
         //update links, dots and text
-        for(let i = 1; i <= steps.length; i++){
+        for(let i = 1; i <= input.steps.length; i++){
             let currentLink = d3.select(`#link${i}`)
             let currentCircle = d3.select(`#step${i}`)
             let currentText = d3.select(`#text${i}`)
@@ -129,21 +278,24 @@ function updateStepProgressBar(step){
     }
 }
 //default start
-updateStepProgressBar(1)
+//updateStepProgressBar(1)
+
+//test call
+setCurrentStep(input2)
 
 //demo button
-const stepButton = d3.select("body")
-    .append("button")
-        .text("Next step")
+// const stepButton = d3.select("body")
+//     .append("button")
+//         .text("Next step")
 
-let currentStep = 1
-stepButton.on("click", function(){
-    currentStep = (currentStep + 1) % (steps.length + 1) 
-    if(currentStep == 0){
-        currentStep++
-    }
-    updateStepProgressBar(currentStep)
-})
+// let currentStep = 1
+// stepButton.on("click", function(){
+//     currentStep = (currentStep + 1) % (input.steps.length + 1) 
+//     if(currentStep == 0){
+//         currentStep++
+//     }
+//     updateStepProgressBar(currentStep)
+// })
 
 
 
