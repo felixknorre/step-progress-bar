@@ -6,20 +6,20 @@ let input = {
         {
 
             text: "1",
-            status: "selected", // ["link", "selected", "silent"]
+            status: "selected", // ["visited", "selected", "silent"]
         },
         {
 
             text: "2",
-            status:  "silent", // ["link", "selected", "silent"]
+            status:  "silent", // ["visited", "selected", "silent"]
         },
         {
             text: "3",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         },
         {
             text: "4",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         }
     ]
 }
@@ -27,19 +27,19 @@ let input2 = {
     steps: [
         {
             text: "1",
-            status: "link", // ["link", "selected", "silent"]
+            status: "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "2",
-            status:  "selected", // ["link", "selected", "silent"]
+            status:  "selected", // ["visited", "selected", "silent"]
         },
         {
             text: "3",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         },
         {
             text: "4",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         }
     ]
 }
@@ -47,19 +47,19 @@ let input3 = {
     steps: [
         {
             text: "1",
-            status: "link", // ["link", "selected", "silent"]
+            status: "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "2",
-            status:  "link", // ["link", "selected", "silent"]
+            status:  "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "3",
-            status: "selected", // ["link", "selected", "silent"]
+            status: "selected", // ["visited", "selected", "silent"]
         },
         {
             text: "4",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         }
     ]
 }
@@ -67,19 +67,19 @@ let input4 = {
     steps: [
         {
             text: "1",
-            status: "link", // ["link", "selected", "silent"]
+            status: "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "2",
-            status:  "selected", // ["link", "selected", "silent"]
+            status:  "selected", // ["visited", "selected", "silent"]
         },
         {
             text: "3",
-            status: "link", // ["link", "selected", "silent"]
+            status: "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "4",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         }
     ]
 }
@@ -87,19 +87,19 @@ let input5 = {
     steps: [
         {
             text: "1",
-            status: "link", // ["link", "selected", "silent"]
+            status: "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "2",
-            status:  "link", // ["link", "selected", "silent"]
+            status:  "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "3",
-            status: "link", // ["link", "selected", "silent"]
+            status: "visited", // ["visited", "selected", "silent"]
         },
         {
             text: "4",
-            status: "selected", // ["link", "selected", "silent"]
+            status: "selected", // ["visited", "selected", "silent"]
         }
     ]
 }
@@ -212,7 +212,7 @@ function setCurrentStep(input) {
     //find last link element
     let linkElements = [];
     input.steps.forEach(element => {
-        if(element.status == "link"){
+        if(element.status == "visited"){
             linkElements.push(element.text)
         }
     })
@@ -239,7 +239,7 @@ function setCurrentStep(input) {
         let currentCircle = d3.select(`#step${element.text}`);
         let currentText = d3.select(`#text${element.text}`);
         //set color, links for current elements
-        if(element.status == "link"){ // link
+        if(element.status == "visited"){ // link
             currentCircle.attr("fill", properties.color.black) // set color for circle
                 .attr("stroke", properties.color.black)
             currentText.attr("fill", properties.color.white)

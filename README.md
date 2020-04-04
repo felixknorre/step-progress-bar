@@ -23,20 +23,20 @@ let input = {
         {
 
             text: "1",
-            status: "selected", // ["link", "selected", "silent"]
+            status: "selected", // ["visited", "selected", "silent"]
         },
         {
 
             text: "2",
-            status:  "silent", // ["link", "selected", "silent"]
+            status:  "silent", // ["visited", "selected", "silent"]
         },
         {
             text: "3",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         },
         {
             text: "4",
-            status: "silent", // ["link", "selected", "silent"]
+            status: "silent", // ["visited", "selected", "silent"]
         }
     ]
 };
