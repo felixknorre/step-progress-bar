@@ -104,9 +104,22 @@ let input5 = {
     ]
 }
 //-------------------------------------------------------------
+
+// get width of div 
+
+function getDivWidth(div){
+    var width = d3.select(div)
+        .style('width')
+        .slice(0, -2);
+
+        return Math.round(Number(width));     
+}
+
+console.log(getDivWidth("#step-progress-bar"));
+
 //set properties
 let properties = {
-    width: window.innerWidth,
+    width: getDivWidth("#step-progress-bar"), //window.innerWidth
     height: 120,
     margin: {
         top: 50,
@@ -134,11 +147,38 @@ properties.boundedWidth = properties.width - properties.margin.left - properties
 properties.boundedHeight = properties.height - properties.margin.top - properties.margin.left;
 properties.stepSize = properties.boundedWidth / (input.steps.length - 1);
 
+
+// resize funct
+// from: https://bl.ocks.org/mtranggit/7689a322bbc9261f22c3317291ca506f
+function responsivefy(svg) {
+    // get container + svg aspect ratio
+    var container = d3.select(svg.node().parentNode),
+        width = parseInt(svg.style("width")),
+        height = parseInt(svg.style("height")),
+        aspect = width / height;
+
+    // add viewBox and preserveAspectRatio properties,
+    // and call resize so that svg resizes on inital page load
+    svg.attr("viewBox", "0 0 " + width + " " + height)
+        .attr("preserveAspectRatio", "xMinYMid")
+        .call(resize);
+
+    // to register multiple listeners for same event type,
+    d3.select(window).on("resize." + container.attr("id"), resize);
+
+    // get width of container and resize svg to fit it
+    function resize() {
+        var targetWidth = parseInt(container.style("width"));
+        svg.attr("width", targetWidth);
+        svg.attr("height", Math.round(targetWidth / aspect));
+    }
+}
 //add svg and bounds
 const svg = d3.select("#step-progress-bar")
     .append("svg")
     .attr("width", properties.width)
-    .attr("height", properties.height);
+    .attr("height", properties.height)
+    .call(responsivefy);
 
 
 const bounds = svg.append("g")
