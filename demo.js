@@ -1,25 +1,17 @@
-# step-progress-bar
+/// change div width for demo
+d3.select("#step-progress-bar")
+    .attr("width", window.innerWidth);
 
-![step progress bar demo](demo/demobar.png)
+function changeDivWidth(){
+    const width = window.innerWidth;
+    d3.select("#step-progress-bar")
+        .attr("width", width);
+}
 
-A step progress bar to vizualize the progress of a online from.
+// change width when inner window width changes
+window.addEventListener("resize", changeDivWidth);
 
-
-
-## Installation
-
-Use [npm](https://www.npmjs.com) to install step-progress-bar.
-
-```bash
-npm install
-```
-
-## Usage
-Name the id of the container div "step-progress-bar".
-The bar adapts to the container div.
-
-```js
-// -- demo input --
+// demo input
 let input = {
     steps: [
         {
@@ -43,12 +35,14 @@ let input = {
     ]
 }
 
+// -- set steps --
+//setData(input);
+
+// -- console log the steps --
+//getData();
+
 // -- draw bar for the first time --
 drawStepProgressBar(input);
-```
 
-## Author
-* Felix Knorre <felix-knorre@hotmail.de>
-
-## License
-[MIT](https://choosealicense.com/licenses/mit/)
+//redraw bar
+//redraw();
