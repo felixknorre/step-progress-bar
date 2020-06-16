@@ -13,10 +13,16 @@ const container = d3.select("#step-progress-bar");
 
 // steps object
 var data;
+var dimensions;
+var color;
+var style;
 
 //set steps
-function setData(input){
-    data = input.steps;
+function setData(dataInput, dimensionsInput, colorInput, styleInput){
+    data = dataInput.steps;
+    dimensions = dimensionsInput;
+    color = colorInput;
+    style = styleInput;
 }
 
 // console log steps for debugging
@@ -44,8 +50,8 @@ function getDivWidth(div){
 
 
 // draw step progress bar for the first time
-function drawStepProgressBar(input){
-    setData(input);
+function drawStepProgressBar(dataInput, dimensionsInput, colorInput, styleInput){
+    setData(dataInput, dimensionsInput, colorInput, styleInput);
     redraw();
 }
 
@@ -55,34 +61,8 @@ function redraw(){
     console.log("--redraw--");
     const divWidth = getDivWidth(container);
 
-    // color
-    color = {
-        black: "#000000", // link
-        red: "#ff0000", // selected
-        brightGrey: "#cccccc", // silent
-        white: "#ffffff",
-
-    }
-
-    // dimensions for svg, bar and steps
-    let dimensions = {
-        width: divWidth,
-        height: 100,
-        margin: {
-            top: 50,
-            right: 50,
-            bottom: 50,
-            left: 50
-        },
-        bar: {
-            height: 5,
-            rx: 5
-        },
-        circle: {
-            r: 20,
-            strokeWidth: 5
-        }
-    }
+    // overwrite width with width of div
+    dimensions.width = divWidth;
 
     dimensions.boundedWidth = dimensions.width - dimensions.margin.left - dimensions.margin.right;
     dimensions.boundedHeight = dimensions.height - dimensions.margin.top - dimensions.margin.bottom;
@@ -109,7 +89,7 @@ function redraw(){
         .attr("class", "background-bar")
         .attr("width", dimensions.boundedWidth)
         .attr("height", dimensions.bar.height)
-        .attr("fill", color.brightGrey)
+        .attr("fill", color.silent)
         .attr("rx", `${dimensions.bar.rx}px`);
 
     //plot progress bar
@@ -117,7 +97,7 @@ function redraw(){
         .attr("class", "progress-bar")
         .attr("width", 0)
         .attr("height", dimensions.bar.height)
-        .attr("fill", color.black)
+        .attr("fill", color.link)
         .attr("rx", `${dimensions.bar.rx}px`);
 
     const circleGroup = bounds.append("g")
@@ -133,7 +113,7 @@ function redraw(){
         .attr("cy", dimensions.bar.height / 2 )
         .attr("r", dimensions.circle.r)
         .attr("fill", color.white)
-        .attr("stroke", color.brightGrey)
+        .attr("stroke", color.silent)
         .attr("stroke-width", dimensions.circle.strokeWidth);
 
     //container for texts
@@ -149,12 +129,13 @@ function redraw(){
         .attr("x", (d,i) => stepSize * i)
         .attr("y", dimensions.bar.height + 2)
         .attr("text-anchor", "middle")
-        .attr("font-family", "Arial Black")
-        .attr("fill", color.brightGrey)
+        .attr("font-family", style.fontFamily)
+        .attr("font-size", style.fontSize)
+        .attr("fill", color.silent)
         .text(d => d.text);
 
     //find current step
-    console.log(data);
+    //console.log(data);
     let currentStep = 0;
     data.forEach(element => {
         if(element.status == "selected")
@@ -182,17 +163,17 @@ function redraw(){
         let currentText = d3.select(`#text${element.text}`);
         //set color, links for current elements
         if(element.status == "visited"){ // link
-            currentCircle.attr("fill", color.black) // set color for circle
-                .attr("stroke", color.black)
+            currentCircle.attr("fill", color.link) // set color for circle
+                .attr("stroke", color.link)
             currentText.attr("fill", color.white)
         } else if(element.status == "selected"){ //selected
-            currentCircle.attr("fill", color.red) // set color for circle
-                .attr("stroke", color.red)
+            currentCircle.attr("fill", color.selected) // set color for circle
+                .attr("stroke", color.selected)
             currentText.attr("fill", color.white)
         } else { // status == silent
             currentCircle.attr("fill", color.white)
-                .attr("stroke", color.brightGrey)
-            currentText.attr("fill", color.brightGrey)
+                .attr("stroke", color.silent)
+            currentText.attr("fill", color.silent)
         }
     })
 
