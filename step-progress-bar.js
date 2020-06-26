@@ -19,10 +19,96 @@ var style;
 
 //set steps
 function setData(dataInput, dimensionsInput, colorInput, styleInput){
-    data = dataInput.steps;
-    dimensions = dimensionsInput;
-    color = colorInput;
-    style = styleInput;
+    let tmpData, tmpDimensions, tmpColor, tmpStyle;
+    if(dataInput == null){
+        
+        tmpData = {
+            steps: [
+                {
+        
+                    text: "1",
+                    status: "visited", // ["visited", "selected", "silent"],
+                    url: "www.google.de"
+                },
+                {
+        
+                    text: "2",
+                    status:  "visited", // ["visited", "selected", "silent"],
+                    url: "www.google.de"
+                },
+                {
+                    text: "3",
+                    status: "selected", // ["visited", "selected", "silent"]
+                    url: "www.google.de"
+                },
+                {
+                    text: "4",
+                    status: "silent", // ["visited", "selected", "silent"]
+                    url: "www.google.de"
+                }
+            ]
+        } 
+    } else {
+
+        tmpData = dataInput;
+
+    }
+
+    if(dimensionsInput == null){
+        tmpDimensions = {
+            width: 300,
+            height: 100,
+            margin: {
+                top: 50,
+                right: 25,
+                bottom: 50,
+                left: 25
+            },
+            bar: {
+                height: 5,
+                rx: 5
+            },
+            circle: {
+                r: 20,
+                strokeWidth: 5
+            }
+        }
+    } else {
+
+        tmpDimensions = dimensionsInput;
+
+    }
+
+    if(colorInput == null){
+        tmpColor = {
+            link: "#000000", // link
+            selected: "#ff0000", // selected
+            silent: "#cccccc", // silent
+            white: "#ffffff",
+        
+        }
+    } else {
+
+        tmpColor = colorInput;
+
+    }
+
+    if(styleInput == null){
+
+        tmpStyle = {
+            fontFamily: "Arial Black",
+            fontSize: 15
+        }
+    } else {
+
+        tmpStyle = styleInput;
+
+    }
+
+    data = tmpData.steps;
+    dimensions = tmpDimensions;
+    color = tmpColor;
+    style = tmpStyle;
 }
 
 // console log steps for debugging
@@ -105,16 +191,30 @@ function redraw(){
 
     //append circle with links
     const circle = circleGroup.selectAll("a")
-        .data(input.steps)
+        .data(data)
         .enter()
-        .append("circle")
-        .attr("id", (d,i) => `step${i+1}`)
-        .attr("cx",(d,i) => stepSize * i)
-        .attr("cy", dimensions.bar.height / 2 )
-        .attr("r", dimensions.circle.r)
-        .attr("fill", color.white)
-        .attr("stroke", color.silent)
-        .attr("stroke-width", dimensions.circle.strokeWidth);
+            .append("a")
+                .attr("class", (i) => "step_" + i.status)
+                .attr("href", (i) => i.url)
+                    .append("circle")
+                    .attr("id", (d,i) => `step${i+1}`)
+                    .attr("cx",(d,i) => stepSize * i)
+                    .attr("cy", dimensions.bar.height / 2 )
+                    .attr("r", dimensions.circle.r)
+                    .attr("fill", color.white)
+                    .attr("stroke", color.silent)
+                    .attr("stroke-width", dimensions.circle.strokeWidth);
+
+
+    // select all silent links
+    const links = d3.selectAll(".step_silent");
+    // remove all href attribute of a tag
+    links.attr("href", null);
+    
+
+
+
+    
 
     //container for texts
     const textGroup = bounds.append("g")
@@ -122,7 +222,7 @@ function redraw(){
 
     // add text to each step
     const texts = textGroup.selectAll("text")
-        .data(input.steps)
+        .data(data)
         .enter()
         .append("text")
         .attr("id", (d) => `text${d.text}`)

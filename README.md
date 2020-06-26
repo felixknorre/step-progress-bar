@@ -17,11 +17,11 @@ npm install
 ## Usage
 Name the id of the container div "step-progress-bar".
 The bar adapts to the container div.
+You can simply call drawStepProgressBar() with the default settings or you can pass your own settings as follows:
 
 ```js
-// -- demo input --
 // demo input
-let input = {
+let dataInput = {
     steps: [
         {
 
@@ -43,7 +43,7 @@ let input = {
         {
             text: "4",
             status: "silent", // ["visited", "selected", "silent"]
-            url: ""
+            url: "www.google.de"
         }
     ]
 }
@@ -69,7 +69,7 @@ dimensionsInput = {
 
 colorInput = {
     link: "#000000", // link
-    selected: "#ff0000", // selected
+    selected: "green", // selected
     silent: "#cccccc", // silent
     white: "#ffffff",
 
@@ -80,8 +80,8 @@ styleInput = {
     fontSize: 15
 }
 
-// -- draw bar for the first time --
-drawStepProgressBar(input, dimensionsInput, colorInput, styleInput);
+/ -- draw bar for the first time --
+drawStepProgressBar(dataInput, dimensions, colorInput, styleInput);
 ```
 
 ## Author

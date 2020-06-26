@@ -12,7 +12,7 @@ function changeDivWidth(){
 window.addEventListener("resize", changeDivWidth);
 
 // demo input
-let input = {
+let dataInput = {
     steps: [
         {
 
@@ -34,7 +34,7 @@ let input = {
         {
             text: "4",
             status: "silent", // ["visited", "selected", "silent"]
-            url: ""
+            url: "www.google.de"
         }
     ]
 }
@@ -60,7 +60,7 @@ dimensionsInput = {
 
 colorInput = {
     link: "#000000", // link
-    selected: "#ff0000", // selected
+    selected: "green", // selected
     silent: "#cccccc", // silent
     white: "#ffffff",
 
@@ -78,7 +78,9 @@ styleInput = {
 //getData();
 
 // -- draw bar for the first time --
-drawStepProgressBar(input, dimensionsInput, colorInput, styleInput);
+drawStepProgressBar(dataInput, dimensions, colorInput, styleInput);
+
+//drawStepProgressBar(null, null, colorInput, null);
 
 //redraw bar
 //redraw();
