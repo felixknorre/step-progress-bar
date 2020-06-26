@@ -80,7 +80,7 @@ styleInput = {
     fontSize: 15
 }
 
-/ -- draw bar for the first time --
+// -- draw bar for the first time --
 drawStepProgressBar(dataInput, dimensions, colorInput, styleInput);
 ```
 
